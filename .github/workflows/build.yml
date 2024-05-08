@@ -47,6 +47,7 @@ jobs:
                   CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
                   CC_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
                   AR_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
+                  RUSTY_V8_MIRROR: https://github.com/AuTsing/rusty_v8_builder/releases
 
             - name: Release
               uses: softprops/action-gh-release@v2
