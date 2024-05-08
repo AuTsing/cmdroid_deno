@@ -2,8 +2,8 @@ name: Build
 
 on:
     push:
-        tags:
-            - 'v*.*.*'
+        tags: ['**']
+
 jobs:
     build:
         runs-on: ubuntu-latest
