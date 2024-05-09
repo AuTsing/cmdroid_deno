@@ -36,6 +36,18 @@ jobs:
                   ndk-version: r26d
                   add-to-path: false
 
+            - name: Install python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: 3.11.x
+                  architecture: x64
+
+            - name: Install protobuf
+              run: |
+                  sudo apt update
+                  sudo apt install -yq --no-install-suggests --no-install-recommends \
+                    protobuf-compiler
+
             - name: Install cross compilation toolchain
               run: |
                   rustup target add aarch64-linux-android
