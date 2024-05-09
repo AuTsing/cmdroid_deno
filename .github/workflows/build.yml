@@ -18,7 +18,7 @@ jobs:
                   version=$(cat ./README.md | grep -oP 'v\d+\.\d+\.\d+')
                   echo "version=$version" >> $GITHUB_OUTPUT
 
-            - name: Checkout to rusty_v8
+            - name: Checkout to deno
               uses: actions/checkout@v4
               with:
                   repository: denoland/deno
