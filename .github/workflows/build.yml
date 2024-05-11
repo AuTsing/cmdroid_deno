@@ -49,13 +49,16 @@ jobs:
               run: |
                   rustup target add aarch64-linux-android
 
-            - name: Download assets
+            - name: Download snapshot
               uses: robinraju/release-downloader@v1
               with:
                   repository: AuTsing/deno_snapshot_builder_qemu
                   tag: ${{ github.ref_name }}
                   out-file-path: assets/deno_snapshot
                   fileName: '*.bin'
+
+            - run: |
+                  ls assets/deno_snapshot
 
             - name: Patch src
               run: |
