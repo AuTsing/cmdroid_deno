@@ -1,5 +1,5 @@
 diff --git a/cli/build.rs b/cli/build.rs
-index d3f428c50..1c6cd4b9d 100644
+index d3f428c50..e869f97ec 100644
 --- a/cli/build.rs
 +++ b/cli/build.rs
 @@ -467,6 +467,22 @@ fn main() {
@@ -9,7 +9,7 @@ index d3f428c50..1c6cd4b9d 100644
 +
 +  // recover android snapshot
 +  if target == "aarch64-linux-android" {
-+    let snapshot_dir = PathBuf::from("assets/deno_snapshot");
++    let snapshot_dir = PathBuf::from(env::var("GITHUB_WORKSPACE").unwrap()).join("assets/deno_snapshot");
 +    let src_compiler_snapshot_path = snapshot_dir.join("COMPILER_SNAPSHOT.bin");
 +    let src_cli_snapshot_path = snapshot_dir.join("CLI_SNAPSHOT.bin");
 +    let dst_compiler_snapshot_path = o.join("COMPILER_SNAPSHOT.bin");

@@ -10,36 +10,18 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout cmdroid_deno
-              uses: actions/checkout@v4
-
-            - name: Get version
-              id: get_version
-              run: |
-                  version=$(cat ./README.md | grep -oP 'v\d+\.\d+\.\d+')
-                  echo "version=$version" >> $GITHUB_OUTPUT
-
-            - name: Download assets
-              uses: robinraju/release-downloader@v1
-              with:
-                  repository: AuTsing/deno_snapshot_builder_qemu
-                  tag: ${{ steps.get_version.outputs.version }}
-                  out-file-path: assets/deno_snapshot
-                  fileName: '*.bin'
-
             - name: Checkout deno
               uses: actions/checkout@v4
               with:
                   repository: denoland/deno
-                  ref: ${{ steps.get_version.outputs.version }}
+                  ref: ${{ github.ref_name }}
                   fetch-depth: 10
                   submodules: recursive
-                  path: assets/deno
 
-            - name: Patch src
-              run: |
-                  cd ${{ github.workspace }}/assets/deno
-                  git apply ${{ github.workspace }}/patches/cli_build.rs.patch
+            - name: Checkout cmdroid_deno
+              uses: actions/checkout@v4
+              with:
+                  path: assets/cmdroid_deno
 
             - name: Install rust
               uses: dsherret/rust-toolchain-file@v1
@@ -67,6 +49,18 @@ jobs:
               run: |
                   rustup target add aarch64-linux-android
 
+            - name: Download assets
+              uses: robinraju/release-downloader@v1
+              with:
+                  repository: AuTsing/deno_snapshot_builder_qemu
+                  tag: ${{ github.ref_name }}
+                  out-file-path: assets/deno_snapshot
+                  fileName: '*.bin'
+
+            - name: Patch src
+              run: |
+                  git apply ${{ github.workspace }}/assets/cmdroid_deno/patches/cli_build.rs.patch
+
             - name: Cache rust
               uses: Swatinem/rust-cache@v2
 
@@ -83,4 +77,4 @@ jobs:
             - name: Release
               uses: softprops/action-gh-release@v2
               with:
-                  files: ./target/aarch64-linux-android/release/cmdroid_deno
+                  files: ${{ github.workspace }}/target/aarch64-linux-android/release/cmdroid_deno
