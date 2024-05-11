@@ -65,6 +65,7 @@ jobs:
               run: |
                   pwd
                   ls
+                  cat README.md
                   git apply patches/cli_build.rs.patch
 
             - name: Cache rust
