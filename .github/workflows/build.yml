@@ -49,25 +49,25 @@ jobs:
               run: |
                   rustup target add aarch64-linux-android
 
-            - name: Download compiler snapshot
-              uses: robinraju/release-downloader@v1
-              with:
-                  repository: AuTsing/deno_snapshot_builder_qemu
-                  tag: ${{ github.ref_name }}
-                  out-file-path: assets/deno_snapshot
-                  fileName: 'COMPILER_SNAPSHOT.bin'
+            # - name: Download compiler snapshot
+            #   uses: robinraju/release-downloader@v1
+            #   with:
+            #       repository: AuTsing/deno_snapshot_builder_qemu
+            #       tag: ${{ github.ref_name }}
+            #       out-file-path: assets/deno_snapshot
+            #       fileName: 'COMPILER_SNAPSHOT.bin'
 
-            - name: Download cli snapshot
-              uses: robinraju/release-downloader@v1
-              with:
-                  repository: AuTsing/deno_snapshot_builder_qemu
-                  tag: ${{ github.ref_name }}
-                  out-file-path: assets/deno_snapshot
-                  fileName: 'CLI_SNAPSHOT.bin'
+            # - name: Download cli snapshot
+            #   uses: robinraju/release-downloader@v1
+            #   with:
+            #       repository: AuTsing/deno_snapshot_builder_qemu
+            #       tag: ${{ github.ref_name }}
+            #       out-file-path: assets/deno_snapshot
+            #       fileName: 'CLI_SNAPSHOT.bin'
 
-            - name: Patch src
-              run: |
-                  git apply ${{ github.workspace }}/assets/cmdroid_deno/patches/cli_build.rs.patch
+            # - name: Patch src
+            #   run: |
+            #       git apply ${{ github.workspace }}/assets/cmdroid_deno/patches/cli_build.rs.patch
 
             - name: Cache rust
               uses: Swatinem/rust-cache@v2
