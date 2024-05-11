@@ -1,0 +1,13 @@
+diff --git a/ext/webgpu/byow.rs b/ext/webgpu/byow.rs
+index 8864e8d2b..90e2f9159 100644
+--- a/ext/webgpu/byow.rs
++++ b/ext/webgpu/byow.rs
+@@ -103,7 +103,7 @@ fn raw_window(
+   Ok((win_handle, display_handle))
+ }
+ 
+-#[cfg(target_os = "linux")]
++#[cfg(any(target_os = "linux", target_os = "android"))]
+ fn raw_window(
+   system: &str,
+   window: *const c_void,

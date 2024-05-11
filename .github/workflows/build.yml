@@ -65,9 +65,10 @@ jobs:
             #       out-file-path: assets/deno_snapshot
             #       fileName: 'CLI_SNAPSHOT.bin'
 
-            # - name: Patch src
-            #   run: |
-            #       git apply ${{ github.workspace }}/assets/cmdroid_deno/patches/cli_build.rs.patch
+            - name: Patch src
+              run: |
+                  # git apply ${{ github.workspace }}/assets/cmdroid_deno/patches/cli_build.rs.patch
+                  git apply ${{ github.workspace }}/assets/cmdroid_deno/patches/ext_webgpu_byow.rs.patch
 
             - name: Cache rust
               uses: Swatinem/rust-cache@v2
