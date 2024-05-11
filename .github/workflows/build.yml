@@ -19,6 +19,14 @@ jobs:
                   version=$(cat ./README.md | grep -oP 'v\d+\.\d+\.\d+')
                   echo "version=$version" >> $GITHUB_OUTPUT
 
+            - name: Download assets
+              uses: robinraju/release-downloader@v1
+              with:
+                  repository: AuTsing/deno_snapshot_builder_qemu
+                  tag: ${{ steps.get_version.outputs.version }}
+                  out-file-path: assets/deno_snapshot
+                  fileName: '*.bin'
+
             - name: Checkout deno
               uses: actions/checkout@v4
               with:
@@ -27,6 +35,13 @@ jobs:
                   fetch-depth: 10
                   submodules: recursive
                   path: assets/deno
+
+            - name: Patch src
+              run: |
+                  pwd
+                  ls
+                  echo $GITHUB_WORKSPACE
+                  git apply patches/cli_build.rs.patch
 
             - name: Install rust
               uses: dsherret/rust-toolchain-file@v1
@@ -53,21 +68,6 @@ jobs:
             - name: Install cross compilation toolchain
               run: |
                   rustup target add aarch64-linux-android
-
-            - name: Download assets
-              uses: robinraju/release-downloader@v1
-              with:
-                  repository: AuTsing/deno_snapshot_builder_qemu
-                  tag: ${{ steps.get_version.outputs.version }}
-                  out-file-path: assets/deno_snapshot
-                  fileName: '*.bin'
-
-            - name: Patch src
-              run: |
-                  pwd
-                  ls
-                  echo $GITHUB_WORKSPACE
-                  git apply patches/cli_build.rs.patch
 
             - name: Cache rust
               uses: Swatinem/rust-cache@v2
