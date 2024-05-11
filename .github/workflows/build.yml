@@ -55,7 +55,7 @@ jobs:
                   repository: AuTsing/deno_snapshot_builder_qemu
                   tag: ${{ github.ref_name }}
                   out-file-path: assets/deno_snapshot
-                  fileName: 'CLI_SNAPSHOT.bin'
+                  fileName: '*.bin'
 
             - name: cat
               run: |
