@@ -49,13 +49,21 @@ jobs:
               run: |
                   rustup target add aarch64-linux-android
 
-            - name: Download snapshot
+            - name: Download compiler snapshot
               uses: robinraju/release-downloader@v1
               with:
                   repository: AuTsing/deno_snapshot_builder_qemu
                   tag: ${{ github.ref_name }}
                   out-file-path: assets/deno_snapshot
-                  fileName: '*.bin'
+                  fileName: 'COMPILER_SNAPSHOT.bin'
+
+            - name: Download cli snapshot
+              uses: robinraju/release-downloader@v1
+              with:
+                  repository: AuTsing/deno_snapshot_builder_qemu
+                  tag: ${{ github.ref_name }}
+                  out-file-path: assets/deno_snapshot
+                  fileName: 'CLI_SNAPSHOT.bin'
 
             - name: cat
               run: |
@@ -78,7 +86,7 @@ jobs:
                   RUSTY_V8_MIRROR: https://github.com/AuTsing/rusty_v8_builder/releases/download
                   DENO_SKIP_CROSS_BUILD_CHECK: 1
 
-            - name: Release
-              uses: softprops/action-gh-release@v2
-              with:
-                  files: ${{ github.workspace }}/target/aarch64-linux-android/release/cmdroid_deno
+            # - name: Release
+            #   uses: softprops/action-gh-release@v2
+            #   with:
+            #       files: ${{ github.workspace }}/target/aarch64-linux-android/release/cmdroid_deno
