@@ -26,6 +26,7 @@ jobs:
                   ref: ${{ steps.get_version.outputs.version }}
                   fetch-depth: 10
                   submodules: recursive
+                  path: assets/deno
 
             - name: Install rust
               uses: dsherret/rust-toolchain-file@v1
@@ -65,7 +66,7 @@ jobs:
               run: |
                   pwd
                   ls
-                  cat README.md
+                  echo $GITHUB_WORKSPACE
                   git apply patches/cli_build.rs.patch
 
             - name: Cache rust
