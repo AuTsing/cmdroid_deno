@@ -83,7 +83,7 @@ jobs:
                   DENO_SKIP_CROSS_BUILD_CHECK: 1
                   RUSTFLAGS: -L ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/17/lib/linux -l clang_rt.builtins-aarch64-android
 
-            # - name: Release
-            #   uses: softprops/action-gh-release@v2
-            #   with:
-            #       files: ${{ github.workspace }}/target/aarch64-linux-android/release/cmdroid_deno
+            - name: Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: ${{ github.workspace }}/target/aarch64-linux-android/release/cmdroid_deno
