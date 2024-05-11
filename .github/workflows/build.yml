@@ -57,7 +57,8 @@ jobs:
                   out-file-path: assets/deno_snapshot
                   fileName: '*.bin'
 
-            - run: |
+            - name: cat
+              run: |
                   ls assets/deno_snapshot
 
             - name: Patch src
