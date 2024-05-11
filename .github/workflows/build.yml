@@ -2,14 +2,15 @@ name: Build
 
 on:
     push:
-        tags: ['**']
+        tags:
+            - v*
 
 jobs:
     build:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout to cmdroid_deno
+            - name: Checkout cmdroid_deno
               uses: actions/checkout@v4
 
             - name: Get version
@@ -18,7 +19,7 @@ jobs:
                   version=$(cat ./README.md | grep -oP 'v\d+\.\d+\.\d+')
                   echo "version=$version" >> $GITHUB_OUTPUT
 
-            - name: Checkout to deno
+            - name: Checkout deno
               uses: actions/checkout@v4
               with:
                   repository: denoland/deno
@@ -52,6 +53,21 @@ jobs:
               run: |
                   rustup target add aarch64-linux-android
 
+            - name: Download assets
+              uses: robinraju/release-downloader@v1
+              with:
+                  repository: AuTsing/deno_snapshot_builder_qemu
+                  tag: ${{ steps.get_version.outputs.version }}
+                  out-file-path: assets/deno_snapshot
+                  fileName: '*.bin'
+
+            - name: Patch src
+              run: |
+                  git apply patches/cli_build.rs.patch
+
+            - name: Cache rust
+              uses: Swatinem/rust-cache@v2
+
             - name: Build
               run: cargo build --target aarch64-linux-android --release
               env:
@@ -60,6 +76,7 @@ jobs:
                   CC_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android28-clang
                   AR_aarch64_linux_android: ${{ steps.install-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
                   RUSTY_V8_MIRROR: https://github.com/AuTsing/rusty_v8_builder/releases/download
+                  DENO_SKIP_CROSS_BUILD_CHECK: 1
 
             - name: Release
               uses: softprops/action-gh-release@v2
