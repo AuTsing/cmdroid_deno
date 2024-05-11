@@ -65,10 +65,6 @@ jobs:
                   out-file-path: assets/deno_snapshot
                   fileName: 'CLI_SNAPSHOT.bin'
 
-            - name: cat
-              run: |
-                  ls -al assets/deno_snapshot
-
             - name: Patch src
               run: |
                   git apply ${{ github.workspace }}/assets/cmdroid_deno/patches/cli_build.rs.patch
